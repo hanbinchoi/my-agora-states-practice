@@ -2,7 +2,7 @@ name: client
 on:
   push:
     branches:
-      - <main>
+      - reference
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -20,12 +20,12 @@ jobs:
           aws --version
       - name: Sync Bucket
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.TEST }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_EC2_METADATA_DISABLED: true
         run: |
           aws s3 sync \
             --region ap-northeast-2 \
             build s3://fe-119-hanbinchoi-s3 \
             --delete
-        working-directory: ./my-agora-states-server
+        working-directory: ./my-agora-states-client
